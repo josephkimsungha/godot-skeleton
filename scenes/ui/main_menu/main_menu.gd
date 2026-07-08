@@ -15,6 +15,7 @@ func _ready() -> void:
     settings_button.pressed.connect(_on_settings_pressed)
     credits_button.pressed.connect(_on_credits_pressed)
     quit_button.pressed.connect(_on_quit_pressed)
+    start_button.grab_focus()
     # play_bgm() no-ops if this track is already playing, so re-entering the
     # menu (e.g. Back from Credits) doesn't restart it.
     AudioManager.play_bgm(MENU_BGM, 0.5)

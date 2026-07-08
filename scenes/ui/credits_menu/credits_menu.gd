@@ -7,6 +7,7 @@ const CREDITS_LIST: CreditsList = preload("res://resources/credits_list.tres")
 
 func _ready() -> void:
 	back_button.pressed.connect(_on_back_pressed)
+	back_button.grab_focus()
 	for entry in CREDITS_LIST.entries:
 		var label := Label.new()
 		label.text = "%s — %s" % [entry.role, entry.display_name]
