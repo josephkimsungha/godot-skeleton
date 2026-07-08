@@ -14,16 +14,16 @@ func setup(container: Node, transition: Node, loading_screen: Node = null) -> vo
 	_transition = transition
 	_loading_screen = loading_screen
 
-## min_display_time keeps the loading screen up for at least that many seconds,
+## min_loading_time keeps the loading screen up for at least that many seconds,
 ## pacing the progress bar by elapsed time as well as real load progress. Handy
 ## for avoiding a one-frame flash on fast loads, and for previewing the UI.
-func goto_scene(path: String, show_loading: bool = false, min_display_time: float = 0.0) -> void:
+func goto_scene(path: String, show_loading: bool = false, min_loading_time: float = 0.0) -> void:
 	if _transition:
 		await _transition.fade_out()
 	if _current_scene:
 		_current_scene.queue_free()
 		_current_scene = null
-	var packed: PackedScene = await _load_scene(path, show_loading, min_display_time)
+	var packed: PackedScene = await _load_scene(path, show_loading, min_loading_time)
 	_current_scene = packed.instantiate()
 	_container.add_child(_current_scene)
 	if show_loading and _loading_screen:
@@ -31,7 +31,7 @@ func goto_scene(path: String, show_loading: bool = false, min_display_time: floa
 	if _transition:
 		await _transition.fade_in()
 
-func _load_scene(path: String, show_loading: bool, min_display_time: float) -> PackedScene:
+func _load_scene(path: String, show_loading: bool, min_loading_time: float) -> PackedScene:
 	var use_loading_screen := show_loading and _loading_screen != null
 	if use_loading_screen:
 		_loading_screen.show_screen()
@@ -43,14 +43,14 @@ func _load_scene(path: String, show_loading: bool, min_display_time: float) -> P
 	var progress := []
 	var status := ResourceLoader.load_threaded_get_status(path, progress)
 	var elapsed := 0.0
-	while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS or elapsed < min_display_time:
+	while status == ResourceLoader.THREAD_LOAD_IN_PROGRESS or elapsed < min_loading_time:
 		if use_loading_screen:
 			var load_ratio: float = (
 				progress[0] if status == ResourceLoader.THREAD_LOAD_IN_PROGRESS else 1.0
 			)
 			var time_ratio: float = (
-				1.0 if min_display_time <= 0.0
-				else clamp(elapsed / min_display_time, 0.0, 1.0)
+				1.0 if min_loading_time <= 0.0
+				else clamp(elapsed / min_loading_time, 0.0, 1.0)
 			)
 			_loading_screen.set_progress(min(load_ratio, time_ratio))
 		await get_tree().process_frame
