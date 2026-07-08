@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bdvjb08itiwwm"]
+[gd_scene load_steps=6 format=3 uid="uid://bdvjb08itiwwm"]
 
 [ext_resource type="Script" uid="uid://ceqm3fk3n1fr7" path="res://scenes/main/main.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://deicdeh7n6rxa" path="res://scenes/ui/transition_layer/transition_layer.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://b1aqtyfote02x" path="res://scenes/ui/pause_menu/pause_menu.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://wivmusyo2eo3" path="res://scenes/ui/settings_menu/settings_menu.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/loading_screen/loading_screen.tscn" id="5"]
 
 [node name="Main" type="Node"]
 process_mode = 3
@@ -20,3 +21,5 @@ layer = 10
 [node name="SettingsMenu" parent="UILayer" instance=ExtResource("4")]
 
 [node name="TransitionLayer" parent="." instance=ExtResource("2")]
+
+[node name="LoadingScreen" parent="." instance=ExtResource("5")]
