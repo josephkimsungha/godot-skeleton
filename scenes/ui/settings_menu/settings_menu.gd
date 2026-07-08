@@ -38,9 +38,7 @@ func close() -> void:
 func _on_settings_requested() -> void:
     visible = true
 
-# Applies the volume immediately, but the preview click waits until changes
-# settle for SFX_PREVIEW_DEBOUNCE seconds -- avoids machine-gunning the sound
-# on every tick while dragging or holding an arrow key.
+# Applies the volume immediately and plays a preview sfx (debounced).
 func _on_sfx_slider_value_changed(value: float) -> void:
     SettingsManager.set_sfx_volume(value)
     _sfx_preview_timer.start()
