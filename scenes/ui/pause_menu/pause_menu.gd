@@ -9,7 +9,7 @@ func _ready() -> void:
 	resume_button.pressed.connect(_on_resume_pressed)
 	settings_button.pressed.connect(_on_settings_pressed)
 	quit_button.pressed.connect(_on_quit_pressed)
-	EventBus.game_paused.connect(func(): visible = true)
+	EventBus.game_paused.connect(func(): visible = true; resume_button.grab_focus())
 	EventBus.game_resumed.connect(func(): visible = false)
 
 func _on_resume_pressed() -> void:

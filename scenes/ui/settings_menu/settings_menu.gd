@@ -9,6 +9,7 @@ const SFX_PREVIEW_DEBOUNCE := 0.1
 @onready var back_button: Button = %BackButton
 
 var _sfx_preview_timer: Timer
+var _previously_focused: Control
 
 func _ready() -> void:
     visible = false
@@ -34,9 +35,13 @@ func close() -> void:
     AudioManager.play_sfx(AudioManager.SFX.click)
     SettingsManager.save_settings()
     visible = false
+    if is_instance_valid(_previously_focused):
+        _previously_focused.grab_focus()
 
 func _on_settings_requested() -> void:
+    _previously_focused = get_viewport().gui_get_focus_owner()
     visible = true
+    master_slider.grab_focus()
 
 # Applies the volume immediately and plays a preview sfx (debounced).
 func _on_sfx_slider_value_changed(value: float) -> void:
